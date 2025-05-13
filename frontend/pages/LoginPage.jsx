@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { Loader } from "lucide-react";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -12,8 +13,10 @@ const LoginPage = () => {
     console.log("Email:", email, "Password:", password);
   };
 
+  const isLoading = false;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-300 to-gray-400 flex items-center justify-center">
+    <>
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -65,7 +68,11 @@ const LoginPage = () => {
             type="submit"
             className="w-full py-2 px-4 bg-gray-500 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition duration-300"
           >
-            Sign In
+            {isLoading ? (
+              <Loader className="animate-spin text-white m-auto" />
+            ) : (
+              "Login"
+            )}
           </motion.button>
         </form>
         <p className="mt-6 text-sm text-center text-gray-600">
@@ -78,7 +85,7 @@ const LoginPage = () => {
           </Link>
         </p>
       </motion.div>
-    </div>
+    </>
   );
 };
 

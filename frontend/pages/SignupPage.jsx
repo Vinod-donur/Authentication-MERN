@@ -35,7 +35,7 @@ const SignupPage = () => {
   const strength = getPasswordStrength(formData.password);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-300 to-gray-400 flex items-center justify-center">
+    <>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -126,7 +126,7 @@ const SignupPage = () => {
           </Link>
         </p>
       </motion.div>
-    </div>
+    </>
   );
 };
 
