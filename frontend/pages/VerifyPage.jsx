@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const VerifyPage = () => {
   const [code, setCode] = useState(new Array(6).fill(""));
@@ -33,6 +33,18 @@ const VerifyPage = () => {
       inputRefs.current[index - 1].focus();
     }
   };
+
+  const handleSubmit = () => {
+    const verificationCode = code.join("");
+    console.log("Verification code submitted:", verificationCode);
+  }
+
+  useEffect(() => {
+    if(code.every((digit)=> digit !== "")){
+      // Submit form after every input is filled;
+      handleSubmit();
+    }
+  }, [code]);
 
   return (
     <motion.div
