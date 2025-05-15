@@ -41,7 +41,7 @@ const VerifyPage = () => {
     const verificationCode = code.join("");
     try {
       await verifyEmail(verificationCode);
-      Navigate("/");
+      navigate("/");
     } catch (error) {
       console.error("Verification error:", error);
     } 
