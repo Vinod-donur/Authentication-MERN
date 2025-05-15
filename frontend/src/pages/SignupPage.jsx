@@ -130,16 +130,14 @@ const SignupPage = () => {
             ) : (
               "Create Account"
             )}
-            {error && (
-              <p className="text-red-500 text-sm mt-2">{error}</p>
-            )}
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </motion.button>
         </form>
         <p className="mt-6 text-sm text-center text-gray-600">
           Already have an account?{" "}
           <Link
             to={"/login"}
-            className="text-blue-600 hover:underline font-medium"
+            className="text-gray-800 hover:underline font-medium"
           >
             Login
           </Link>

@@ -83,8 +83,7 @@ const ForgotPasswordPage = () => {
       <div className="flex justify-end mt-4">
         <Link
           to="/login"
-          className="text-sm text-blue-400 hover:underline
-          hover:text-blue-600 font-medium"
+          className="text-sm text-gray-800 hover:underline font-medium"
         >
           Back to Login
         </Link>

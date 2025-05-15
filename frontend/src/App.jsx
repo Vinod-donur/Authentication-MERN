@@ -1,9 +1,10 @@
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import VerifyPage from './pages/VerifyPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import { Route, Routes } from 'react-router-dom';
-import './App.css'
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import VerifyPage from "./pages/VerifyPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
 
 function App() {
   return (
@@ -14,10 +15,14 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/verifyEmail" element={<VerifyPage />} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+          <Route
+            path="/resetPassword/:resetToken"
+            element={<ResetPasswordPage />}
+          />
         </Routes>
       </div>
     </>
   );
 }
 
-export default App
+export default App;

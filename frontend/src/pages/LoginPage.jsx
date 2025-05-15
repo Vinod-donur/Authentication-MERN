@@ -60,7 +60,7 @@ const LoginPage = () => {
           <div className="flex justify-end">
             <Link
               to="/forgotPassword"
-              className="text-sm text-blue-600 hover:underline font-medium"
+              className="text-sm text-gray-800 hover:underline font-medium"
             >
               Forgot password?
             </Link>
@@ -77,16 +77,14 @@ const LoginPage = () => {
             ) : (
               "Login"
             )}
-            {error && (
-              <p className="text-red-500 text-sm mt-2">{error}</p>
-            )}
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </motion.button>
         </form>
         <p className="mt-6 text-sm text-center text-gray-600">
           Don&apos;t have an account?{" "}
           <Link
             to="/signup"
-            className="text-blue-600 hover:underline font-medium"
+            className="text-gray-800 hover:underline font-medium"
           >
             Sign up
           </Link>
