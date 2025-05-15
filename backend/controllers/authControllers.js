@@ -134,7 +134,7 @@ const forgotPasswordController = async (req, res) => {
       "vinoddonur6@gmail.com",
       process.env.CLIENT_URL + `/api/auth/resetPassword/${resetToken}`
     );
-    res.status(200).json({ message: "Password reset link sent to your email" });
+    res.status(200).json({ message: "Password reset link sent to your email",user:user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to send password reset link" });
