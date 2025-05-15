@@ -2,6 +2,8 @@ import  { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Loader } from "lucide-react";
+import toast from "react-hot-toast";
+
 
 import useAuthStore from "../store/AuthStore.js";
 
@@ -14,7 +16,9 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       login(email, password);
+      toast.success("Login successful!");
     } catch (error) {
+      toast.error("Login failed. Please check your credentials.");
       console.error("Login error:", error);
     }
   };

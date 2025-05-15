@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Loader } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import useAuthStore from "../store/AuthStore.js";
 
@@ -8,6 +9,7 @@ const VerifyPage = () => {
   const [code, setCode] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
   const { verifyEmail, error, isLoading } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -41,7 +43,7 @@ const VerifyPage = () => {
     const verificationCode = code.join("");
     try {
       await verifyEmail(verificationCode);
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.error("Verification error:", error);
     } 
@@ -96,6 +98,7 @@ const VerifyPage = () => {
             "Verify"
           )}
         </motion.button>
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </form>
     </motion.div>
   );

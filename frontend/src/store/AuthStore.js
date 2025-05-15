@@ -79,10 +79,10 @@ const useAuthStore = create((set) => ({
             }
       },
 
-      resetPassword: async (resetToken, newPassword) => {
+      resetPassword: async (resetToken, password) => {
             set({isLoading: true, error: null, message: null});
             try {
-                  const response = await api.post(`/resetPassword/${resetToken}`, { newPassword });
+                  const response = await api.post(`/resetPassword/${resetToken}`, { password });
                   set({ isLoading: false, message: response.data.message });
             } catch (error) {
                   set({ error: error.response.data.message, isLoading: false });
