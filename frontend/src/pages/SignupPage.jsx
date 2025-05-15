@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import useAuthStore from "../store/AuthStore.js";
+import { Loader } from "lucide-react";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -8,15 +11,23 @@ const SignupPage = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
+
+  const { signup, error, isLoading } = useAuthStore();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle signup logic here
-    console.log(formData);
+    try {
+      await signup(formData.name, formData.email, formData.password);
+      navigate("/verifyEmail");
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
   };
 
   const getPasswordStrength = (password) => {
@@ -111,9 +122,14 @@ const SignupPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
+            disabled={isLoading}
             className="w-full py-2 px-4 bg-gray-500 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition duration-300 focus:ring-2 focus:ring-gray-600 focus:outline-none"
           >
-            Create Account
+            {isLoading ? (
+              <Loader className="animate-spin text-white m-auto" />
+            ) : (
+              "Create Account"
+            )}
           </motion.button>
         </form>
         <p className="mt-6 text-sm text-center text-gray-600">

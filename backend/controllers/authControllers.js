@@ -132,7 +132,7 @@ const forgotPasswordController = async (req, res) => {
     //email sending logic
     await passwordResetRequest(
       "vinoddonur6@gmail.com",
-      process.env.CLIENT_URL + `/resetPassword/${resetToken}`
+      process.env.CLIENT_URL + `/api/auth/resetPassword/${resetToken}`
     );
     res.status(200).json({ message: "Password reset link sent to your email" });
   } catch (error) {
