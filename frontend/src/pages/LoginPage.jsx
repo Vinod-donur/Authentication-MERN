@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Loader } from "lucide-react";
@@ -59,7 +59,7 @@ const LoginPage = () => {
 
           <div className="flex justify-end">
             <Link
-              to="/forgot-password"
+              to="/forgotPassword"
               className="text-sm text-blue-600 hover:underline font-medium"
             >
               Forgot password?

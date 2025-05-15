@@ -1,6 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Loader } from "lucide-react";
 
 import useAuthStore from "../store/AuthStore.js";
@@ -42,7 +41,7 @@ const VerifyPage = () => {
     const verificationCode = code.join("");
     try {
       await verifyEmail(verificationCode);
-      Navigate("/dashboard");
+      Navigate("/");
     } catch (error) {
       console.error("Verification error:", error);
     } 
