@@ -1,10 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import { Loader } from "lucide-react";
+
+import useAuthStore from "../store/AuthStore.js";
 
 const VerifyPage = () => {
   const [code, setCode] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
+  const { verifyEmail, error, isLoading } = useAuthStore();
 
   const handleChange = (index, value) => {
     const newCode = [...code];
@@ -34,9 +38,14 @@ const VerifyPage = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const verificationCode = code.join("");
-    console.log("Verification code submitted:", verificationCode);
+    try {
+      await verifyEmail(verificationCode);
+      Navigate("/dashboard");
+    } catch (error) {
+      console.error("Verification error:", error);
+    } 
   }
 
   useEffect(() => {
@@ -82,7 +91,11 @@ const VerifyPage = () => {
           type="submit"
           className="w-full py-2 px-4 bg-gray-500 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition duration-300 focus:ring-2 focus:ring-gray-600 focus:outline-none"
         >
-          Verify
+          {isLoading ? (
+            <Loader className="animate-spin text-white m-auto" />
+          ) : (
+            "Verify"
+          )}
         </motion.button>
       </form>
     </motion.div>

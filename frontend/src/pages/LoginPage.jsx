@@ -3,17 +3,21 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Loader } from "lucide-react";
 
+import useAuthStore from "../store/AuthStore.js";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, error, isLoading } = useAuthStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Email:", email, "Password:", password);
+    try {
+      login(email, password);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
-
-  const isLoading = false;
 
   return (
     <>
@@ -72,6 +76,9 @@ const LoginPage = () => {
               <Loader className="animate-spin text-white m-auto" />
             ) : (
               "Login"
+            )}
+            {error && (
+              <p className="text-red-500 text-sm mt-2">{error}</p>
             )}
           </motion.button>
         </form>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
+import { Loader } from "lucide-react";
 
 import useAuthStore from "../store/AuthStore.js";
-import { Loader } from "lucide-react";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -129,6 +129,9 @@ const SignupPage = () => {
               <Loader className="animate-spin text-white m-auto" />
             ) : (
               "Create Account"
+            )}
+            {error && (
+              <p className="text-red-500 text-sm mt-2">{error}</p>
             )}
           </motion.button>
         </form>
