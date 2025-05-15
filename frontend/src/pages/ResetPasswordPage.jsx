@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Loader } from "lucide-react";
+import toast from "react-hot-toast";
+
 
 import useAuthStore from "../store/AuthStore.js";
 
@@ -19,9 +21,11 @@ const ResetPasswordPage = () => {
       alert("Passwords do not match");
     }
     try {
-      resetPassword(resetToken,password);
+      resetPassword(resetToken, password);
+      toast.success("Password reset successfully");
       navigate("/login");
     } catch (error) {
+      toast.error("Error resetting password");
       console.error("Reset password error:", error);
     }
   };

@@ -4,6 +4,8 @@ import VerifyPage from "./pages/VerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+
 import "./App.css";
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
             element={<ResetPasswordPage />}
           />
         </Routes>
+        <Toaster />
       </div>
     </>
   );
