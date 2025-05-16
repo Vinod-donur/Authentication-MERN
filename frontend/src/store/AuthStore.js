@@ -50,7 +50,7 @@ const useAuthStore = create((set) => ({
                   const response = await api.post('/login', { email, password });
                   set({ user: response.data.user, isAuthenticated: true, isLoading: false, message: response.data.message });
             } catch (error) {
-                  set({ error: error.response.data.message, isLoading: false });
+                  set({ error: error.response?.data?.message || "something went wrong", isLoading: false });
                   throw (error);
             }
       },
