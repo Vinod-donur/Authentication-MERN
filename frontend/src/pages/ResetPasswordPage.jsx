@@ -4,28 +4,29 @@ import { motion } from "framer-motion";
 import { Loader } from "lucide-react";
 import toast from "react-hot-toast";
 
-
 import useAuthStore from "../store/AuthStore.js";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const { resetPassword, error, isLoading } = useAuthStore();
-      const navigate = useNavigate();
-      const { resetToken } = useParams();
+  const navigate = useNavigate();
+  const { resetToken } = useParams();
 
   const handleSubmit = (e) => {
-        e.preventDefault();
-        
+    e.preventDefault();
+    setIsSubmitted(true);
     if (password !== confirmPassword) {
       alert("Passwords do not match");
     }
     try {
       resetPassword(resetToken, password);
-      toast.success("Password reset successfully",{autoclose: 2000});
+      toast.success("Password reset successfully", { autoclose: 2000 });
       navigate("/login");
     } catch (error) {
-      toast.error("Error resetting password",{autoclose: 2000});
+      toast.error("Error resetting password", { autoclose: 2000 });
       console.error("Reset password error:", error);
     }
   };
@@ -79,13 +80,16 @@ const ResetPasswordPage = () => {
             "Reset Password"
           )}
         </motion.button>
-        {error && (
+        {isSubmitted && error && (
           <p className="text-red-500 text-sm text-center mt-2">{error}</p>
         )}
       </form>
       <p className="text-sm text-gray-600 text-center mt-4">
         Remembered your password?{" "}
-        <Link to="/login" className="text-gray-800 hover:underline font-semibold">
+        <Link
+          to="/login"
+          className="text-gray-800 hover:underline font-semibold"
+        >
           Login
         </Link>
       </p>

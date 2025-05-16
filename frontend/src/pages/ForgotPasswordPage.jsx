@@ -66,7 +66,7 @@ const ForgotPasswordPage = () => {
               "Send Reset Link"
             )}
           </motion.button>
-          {error && (
+          {isSubmitted && error && (
             <p className="text-red-500 text-sm text-center mt-2">{error}</p>
           )}
         </form>

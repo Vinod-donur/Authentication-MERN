@@ -12,6 +12,7 @@ const SignupPage = () => {
     email: "",
     password: "",
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const { signup, error, isLoading } = useAuthStore();
@@ -22,7 +23,7 @@ const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
+    setIsSubmitted(true);
     try {
       await signup(formData.name, formData.email, formData.password);
       toast.success("Account created successfully!", {
@@ -135,7 +136,7 @@ const SignupPage = () => {
             ) : (
               "Create Account"
             )}
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            {isSubmitted && error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </motion.button>
         </form>
         <p className="mt-6 text-sm text-center text-gray-600">

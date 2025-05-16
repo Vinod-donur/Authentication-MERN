@@ -10,7 +10,11 @@ const useAuthStore = create((set) => ({
       message: null,
 
       signup: async (name, email, password) => {
-            set({isLoading: true, error: null, message: null});
+            set({ isLoading: true, error: null, message: null });
+            if (!name || !email || !password) {
+              set({ error: "Please fill in all fields", isLoading: false });
+              return;
+            }
             try {
                   const response = await api.post('/signup', { name, email, password });
                   set({ user: response.data.user, isAuthenticated: true, isLoading: false, message: response.data.message });
@@ -36,7 +40,12 @@ const useAuthStore = create((set) => ({
       },
 
       login: async (email, password) => {
-            set({isLoading: true, error: null, message: null});
+            set({ isLoading: true, error: null, message: null });
+            if (!email || !password) {
+              set({ error: "Please fill in all fields", isLoading: false });
+              return;
+            }
+                
             try {
                   const response = await api.post('/login', { email, password });
                   set({ user: response.data.user, isAuthenticated: true, isLoading: false, message: response.data.message });
@@ -69,7 +78,12 @@ const useAuthStore = create((set) => ({
       },
 
       forgotPassword: async (email) => {
-            set({isLoading: true, error: null, message: null});
+            set({ isLoading: true, error: null, message: null });
+            if (!email) {
+              set({ error: "Please fill in all fields", isLoading: false });
+              return;
+            }
+                
             try {
                   const response = await api.post('/forgotPassword', { email });
                   set({ isLoading: false, message: response.data.message });
@@ -80,7 +94,11 @@ const useAuthStore = create((set) => ({
       },
 
       resetPassword: async (resetToken, password) => {
-            set({isLoading: true, error: null, message: null});
+            set({ isLoading: true, error: null, message: null });
+            if (!resetToken || !password) {
+              set({ error: "Please fill in all fields", isLoading: false });
+              return;
+            }
             try {
                   const response = await api.post(`/resetPassword/${resetToken}`, { password });
                   set({ isLoading: false, message: response.data.message });

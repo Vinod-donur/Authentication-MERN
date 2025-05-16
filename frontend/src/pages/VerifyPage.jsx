@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 const VerifyPage = () => {
   const [code, setCode] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const { verifyEmail, error, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
@@ -42,18 +44,21 @@ const VerifyPage = () => {
 
   const handleSubmit = async () => {
     const verificationCode = code.join("");
+    setIsSubmitted(true);
     try {
       await verifyEmail(verificationCode);
-      toast.success("Email verified successfully!",{autoclose: 2000});
+      toast.success("Email verified successfully!", { autoclose: 2000 });
       navigate("/login");
     } catch (error) {
-      toast.error("Verification failed. Please check your code.",{autoclose: 2000});
+      toast.error("Verification failed. Please check your code.", {
+        autoclose: 2000,
+      });
       console.error("Verification error:", error);
-    } 
-  }
+    }
+  };
 
   useEffect(() => {
-    if(code.every((digit)=> digit !== "")){
+    if (code.every((digit) => digit !== "")) {
       // Submit form after every input is filled;
       handleSubmit();
     }
@@ -101,7 +106,9 @@ const VerifyPage = () => {
             "Verify"
           )}
         </motion.button>
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        {setIsSubmitted && error && (
+          <p className="text-red-500 text-sm mt-2">{error}</p>
+        )}
       </form>
     </motion.div>
   );

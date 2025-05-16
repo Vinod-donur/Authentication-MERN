@@ -1,6 +1,6 @@
 import  { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -10,13 +10,18 @@ import useAuthStore from "../store/AuthStore.js";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const { login, error, isLoading } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitted(true);
     try {
       login(email, password);
-      toast.success("Login successful!",{autoclose: 2000});
+      toast.success("Login successful!", { autoclose: 2000 });
+      navigate("/");
     } catch (error) {
       toast.error("Login failed. Please check your credentials.",{autoclose: 2000});
       console.error("Login error:", error);
@@ -81,7 +86,7 @@ const LoginPage = () => {
             ) : (
               "Login"
             )}
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            {isSubmitted && error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </motion.button>
         </form>
         <p className="mt-6 text-sm text-center text-gray-600">
