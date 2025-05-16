@@ -11,10 +11,10 @@ const ForgotPasswordPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { forgotPassword, error, isLoading } = useAuthStore();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      forgotPassword(email);
+      await forgotPassword(email);
       toast.success("Password reset link sent to your email", {
         autoclose: 2000,
       });

@@ -15,11 +15,11 @@ const LoginPage = () => {
   const { login, error, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitted(true);
     try {
-      login(email, password);
+      await login(email, password);
       toast.success("Login successful!", { autoclose: 2000 });
       navigate("/");
     } catch (error) {

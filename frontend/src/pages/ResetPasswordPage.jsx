@@ -15,14 +15,14 @@ const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const { resetToken } = useParams();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitted(true);
     if (password !== confirmPassword) {
       alert("Passwords do not match");
     }
     try {
-      resetPassword(resetToken, password);
+      await resetPassword(resetToken, password);
       toast.success("Password reset successfully", { autoclose: 2000 });
       navigate("/login");
     } catch (error) {
