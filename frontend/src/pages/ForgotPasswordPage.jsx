@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Loader, Mail } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import useAuthStore from "../store/AuthStore.js";
 
@@ -15,8 +15,14 @@ const ForgotPasswordPage = () => {
     e.preventDefault();
     try {
       forgotPassword(email);
+      toast.success("Password reset link sent to your email", {
+        autoclose: 2000,
+      });
       setIsSubmitted(true);
     } catch (error) {
+      toast.error("Error sending password reset link", {
+        autoclose: 2000,
+      });
       console.error("Forgot password error:", error);
     }
   };
@@ -80,13 +86,17 @@ const ForgotPasswordPage = () => {
           </p>
         </div>
       )}
-      <div className="flex justify-end mt-4">
+      <div className="flex mt-4">
         <Link
           to="/login"
-          className="text-sm text-gray-800 hover:underline font-medium"
+          className="text-sm text-gray-800 hover:underline justify-left font-medium"
         >
           Back to Login
         </Link>
+        <Link
+          to="/resetPassword/ieidkdk"
+          className="text-sm text-gray-800 hover:underline justify-right font-medium ml-auto"
+        >Reset Password Page</Link>
       </div>
     </motion.div>
   );

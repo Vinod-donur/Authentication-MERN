@@ -16,9 +16,9 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       login(email, password);
-      toast.success("Login successful!");
+      toast.success("Login successful!",{autoclose: 2000});
     } catch (error) {
-      toast.error("Login failed. Please check your credentials.");
+      toast.error("Login failed. Please check your credentials.",{autoclose: 2000});
       console.error("Login error:", error);
     }
   };

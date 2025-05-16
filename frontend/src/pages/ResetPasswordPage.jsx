@@ -22,10 +22,10 @@ const ResetPasswordPage = () => {
     }
     try {
       resetPassword(resetToken, password);
-      toast.success("Password reset successfully");
+      toast.success("Password reset successfully",{autoclose: 2000});
       navigate("/login");
     } catch (error) {
-      toast.error("Error resetting password");
+      toast.error("Error resetting password",{autoclose: 2000});
       console.error("Reset password error:", error);
     }
   };

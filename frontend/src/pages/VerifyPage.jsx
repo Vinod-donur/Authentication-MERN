@@ -4,6 +4,7 @@ import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import useAuthStore from "../store/AuthStore.js";
+import toast from "react-hot-toast";
 
 const VerifyPage = () => {
   const [code, setCode] = useState(new Array(6).fill(""));
@@ -43,8 +44,10 @@ const VerifyPage = () => {
     const verificationCode = code.join("");
     try {
       await verifyEmail(verificationCode);
+      toast.success("Email verified successfully!",{autoclose: 2000});
       navigate("/login");
     } catch (error) {
+      toast.error("Verification failed. Please check your code.",{autoclose: 2000});
       console.error("Verification error:", error);
     } 
   }

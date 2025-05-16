@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
 
 import useAuthStore from "../store/AuthStore.js";
+import toast from "react-hot-toast";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -24,8 +25,12 @@ const SignupPage = () => {
     // Handle signup logic here
     try {
       await signup(formData.name, formData.email, formData.password);
+      toast.success("Account created successfully!", {
+        autoclose: 2000,
+      });
       navigate("/verifyEmail");
     } catch (error) {
+      toast.error("Error creating account. Please try again.", { autoclose: 2000 });
       console.error("Signup error:", error);
     }
   };
