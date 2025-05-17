@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const tokenGenerator = require("../utils/tokenGenerator");
+const verifyTokenGenerator = require("../utils/verifyTokenGenerator")
 const {
   sendVerificationEmail,
   sendWelcomeEmail,
@@ -23,9 +24,7 @@ const signupController = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const verificationToken = Math.floor(
-      100000 + Math.random() * 900000
-    ).toString();
+    const verificationToken = verifyTokenGenerator();
 
     const newUser = await User.create({
       name,

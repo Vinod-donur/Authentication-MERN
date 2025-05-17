@@ -63,7 +63,7 @@ const VerifyPage = () => {
       // Submit form after every input is filled;
       handleSubmit();
     }
-    // if (timer === 0) return;
+    if (timer === 0) return;
     const countdown = setInterval(() => {
       setTimer((num) => num - 1);
     }, 1000);
@@ -104,7 +104,7 @@ const VerifyPage = () => {
         {timer > 0 && (
           <p className="text-sm text-center text-gray-600 mb-6">
             {" "}
-            Enter code in {timer===60?`01:${timer}`:`00:${timer}`} seconds
+            Enter code in {timer === 60 ? `01:${timer}` : `00:${timer}`} seconds
           </p>
         )}
         <motion.button
@@ -120,6 +120,22 @@ const VerifyPage = () => {
           )}
         </motion.button>
 
+          {timer === 0 && (
+            <p className="text-sm text-center text-gray-600 mb-6">
+              Code expired.{" "}
+              <button
+                type="button"
+                className="text-gray-800 hover:underline font-medium"
+                onClick={() => {
+                  setTimer(60);
+                  setCode(new Array(6).fill(""));
+                }}
+              >
+                Resend code
+              </button>
+            </p>
+          )}
+        
         {isSubmitted && error && (
           <p className="text-red-500 text-sm mt-2">{error}</p>
         )}
