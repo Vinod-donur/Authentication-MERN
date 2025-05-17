@@ -8,8 +8,9 @@ import toast from "react-hot-toast";
 
 const VerifyPage = () => {
   const [code, setCode] = useState(new Array(6).fill(""));
-  const inputRefs = useRef([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [timer, setTimer] = useState(60);
+  const inputRefs = useRef([]);
 
   const { verifyEmail, error, isLoading } = useAuthStore();
   const navigate = useNavigate();
@@ -62,7 +63,13 @@ const VerifyPage = () => {
       // Submit form after every input is filled;
       handleSubmit();
     }
-  }, [code]);
+    // if (timer === 0) return;
+    const countdown = setInterval(() => {
+      setTimer((num) => num - 1);
+    }, 1000);
+
+    return () => {clearInterval(countdown)};
+  }, [code, timer]);
 
   return (
     <motion.div
@@ -94,6 +101,12 @@ const VerifyPage = () => {
           })}
         </div>
 
+        {timer > 0 && (
+          <p className="text-sm text-center text-gray-600 mb-6">
+            {" "}
+            Enter code in {timer===60?`01:${timer}`:`00:${timer}`} seconds
+          </p>
+        )}
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -106,7 +119,8 @@ const VerifyPage = () => {
             "Verify"
           )}
         </motion.button>
-        {setIsSubmitted && error && (
+
+        {isSubmitted && error && (
           <p className="text-red-500 text-sm mt-2">{error}</p>
         )}
       </form>
