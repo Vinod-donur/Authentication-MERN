@@ -12,7 +12,8 @@ const VerifyPage = () => {
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef([]);
 
-  const { verifyEmail, error, isLoading } = useAuthStore();
+  const { verifyEmail, error, resendVerificationCode, isLoading } =
+    useAuthStore();
   const navigate = useNavigate();
 
   const handleChange = (index, value) => {
@@ -58,6 +59,19 @@ const VerifyPage = () => {
     }
   };
 
+  const handleResend = async () => {
+    try {
+      await resendVerificationCode();
+      toast.success("Verification code resent successfully!", {
+        autoclose: 2000,
+      });
+    } catch (error) {
+      toast.error("Failed to resend verification code. Please try again.", {
+        autoclose: 2000,
+      });
+      console.error("Resend error:", error);
+    }
+  };
   useEffect(() => {
     if (code.every((digit) => digit !== "")) {
       // Submit form after every input is filled;
@@ -68,7 +82,9 @@ const VerifyPage = () => {
       setTimer((num) => num - 1);
     }, 1000);
 
-    return () => {clearInterval(countdown)};
+    return () => {
+      clearInterval(countdown);
+    };
   }, [code, timer]);
 
   return (
@@ -84,7 +100,7 @@ const VerifyPage = () => {
       <p className="text-sm text-center text-gray-600 mb-6">
         Enter the 6-digit code sent to your email address.
       </p>
-      <form className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           {code.map((digit, index) => {
             return (
@@ -120,22 +136,24 @@ const VerifyPage = () => {
           )}
         </motion.button>
 
-          {timer === 0 && (
-            <p className="text-sm text-center text-gray-600 mb-6">
-              Code expired.{" "}
-              <button
-                type="button"
-                className="text-gray-800 hover:underline font-medium"
-                onClick={() => {
-                  setTimer(60);
-                  setCode(new Array(6).fill(""));
-                }}
-              >
-                Resend code
-              </button>
-            </p>
-          )}
-        
+        {timer === 0 && (
+          <p className="text-sm text-center text-gray-600 mb-6">
+            Code expired.{" "}
+            <button
+              type="button"
+              className="text-gray-800 hover:underline font-medium"
+              onClick={async () => {
+                setTimer(60);
+                setCode(new Array(6).fill(""));
+                setIsSubmitted(false);
+                await handleResend();
+              }}
+            >
+              Resend code
+            </button>
+          </p>
+        )}
+
         {isSubmitted && error && (
           <p className="text-red-500 text-sm mt-2">{error}</p>
         )}

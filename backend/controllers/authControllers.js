@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const tokenGenerator = require("../utils/tokenGenerator");
-const verifyTokenGenerator = require("../utils/verifyTokenGenerator")
+const verifyTokenGenerator = require("../utils/verifyTokenGenerator");
 const {
   sendVerificationEmail,
   sendWelcomeEmail,
@@ -76,6 +76,31 @@ const verifyEmailController = async (req, res) => {
   }
 };
 
+const resendVerificationCodeController = async (req, res) => {
+  const id = req.userId;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    if (user.isVerified) {
+      return res.status(400).json({ message: "User already verified" });
+    }
+    const verificationToken = verifyTokenGenerator();
+    user.verificationToken = verificationToken;
+    user.verificationTokenExpiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+    await user.save();
+    sendVerificationEmail(`vinoddonur6@gmail.com`, verificationToken);
+    res.status(200).json({
+      message: "Verification code resent successfully",
+      user: user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to resend verification code" });
+  }
+};
+
 const logoutController = async (req, res) => {
   try {
     res.clearCookie("token");
@@ -133,7 +158,9 @@ const forgotPasswordController = async (req, res) => {
       "vinoddonur6@gmail.com",
       process.env.CLIENT_URL + `/api/auth/resetPassword/${resetToken}`
     );
-    res.status(200).json({ message: "Password reset link sent to your email",user:user });
+    res
+      .status(200)
+      .json({ message: "Password reset link sent to your email", user: user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to send password reset link" });
@@ -182,6 +209,7 @@ const checkAuthController = async (req, res) => {
 module.exports = {
   signupController,
   verifyEmailController,
+  resendVerificationCodeController,
   logoutController,
   loginController,
   forgotPasswordController,
